@@ -5,12 +5,15 @@ var db = level('./db');
 var sc = require('soundclouder');
 
 sc.init('8602754b7e631dee78add76ddd5169a2', 'a98d4bc32bab450397c4632448a80e02', 'http://soundcloud.labs.lythell.com/redirect');
-console.log();
+
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
 });
 
+//
+//  Handle signup npm module used is: https://www.npmjs.org/package/soundclouder
+//
 router.get('/signup', function(req, res) {
   var user = req.query.user;
   console.log(user);
@@ -36,6 +39,9 @@ router.get('/signup', function(req, res) {
   });
 });
 
+//
+//  check for songs from extension
+//
 router.post('/', function(req,res) {
   db.get(req.body.url, function(err, value) {
     if (err && err.notFound) {
@@ -46,6 +52,9 @@ router.post('/', function(req,res) {
   });
 });
 
+//
+//  save songs from extension
+//
 router.post('/save', function(req, res) {
 
     db.put(req.body.url, req.body.value, function() {
@@ -56,6 +65,10 @@ router.post('/save', function(req, res) {
     });
 });
 
+
+//
+// user check.. not implemented TBC
+//
 router.post('/user', function(req, res) {
   db.get(req.body.user, function(err, value) {
     if (err && err.notFound) {
