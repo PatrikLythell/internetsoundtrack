@@ -1,0 +1,45 @@
+body {
+    padding: 20px;
+    min-width: 390px;
+    font-family: 'Open sans', sans-serif;
+}
+
+h2 {
+    font-weight: 600;
+}
+
+img {
+    float: left;
+    margin-top: 15px;
+    margin-right: 20px;
+}
+
+.thin {
+    font-weight: 100 !important;
+}
+
+input {
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid grey;
+}
+
+input:focus {
+    outline: none;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+li:hover {
+    cursor: pointer;
+    background: grey;
+    color: white;
+}
