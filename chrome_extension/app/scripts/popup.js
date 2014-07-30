@@ -4,6 +4,10 @@
 $('#signup').hide();
 $('#info-wrapper').hide();
 
+
+//
+//  Regexp for matching against exposure.co
+//
 var urlMatch = new RegExp('^(http|https):\/\/([da-z.-]+)(.exposure)');
 
 SC.initialize({
@@ -11,8 +15,10 @@ SC.initialize({
     client_id: '8602754b7e631dee78add76ddd5169a2'
 });
 
-
-
+//
+//  User check.. rudimentary and not really working.. Get's sent to backend but not used
+//  for logging users TBC..
+//
 chrome.cookies.get({url: 'http://soundcloud.com', name: 'soundtracker'}, function(cookie) {
     if (cookie) {
         $('#info-wrapper').show();
@@ -27,6 +33,10 @@ chrome.cookies.get({url: 'http://soundcloud.com', name: 'soundtracker'}, functio
     }
 });
 
+
+//
+//  Send some messsages to background.js
+//
 chrome.runtime.sendMessage({message: 'none'}, function(data) {
     if (data) {
         $('#info').html(data);
@@ -37,12 +47,18 @@ chrome.runtime.sendMessage({message: 'none'}, function(data) {
     }
 });
 
+//
+//  Some tab selection logic
+//
 chrome.tabs.getSelected(null, function(tab) {
     if (!urlMatch.test(tab.url)) {
         $('#search-wrapper').hide();
     }
 });
 
+//
+// Handling song search
+//
 $('input').on('keyup', function() {
     var inputVal = $(this).val();
     chrome.tabs.getSelected(null,function(tab) {
@@ -64,6 +80,10 @@ $('input').on('keyup', function() {
     });
 });
 
+
+//
+//  Handling saving of songs
+//
 $('body').on('click', '#list li', function() {
     var data = $(this).data('id');
     chrome.tabs.getSelected(null,function(tab) {

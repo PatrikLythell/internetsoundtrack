@@ -7,21 +7,26 @@ SC.initialize({
     client_id: '8602754b7e631dee78add76ddd5169a2'
 });
 
-
-//var AudioContext = window.AudioContext||window.webkitAudioContext;
-//var audio = new Audio();
-
+//
+// Player is our main function for handing playing of songs and backend integration
+//
 function Player() {
     this.isPlaying = false;
     this.currentUrl = false;
     this.audio = new Audio();
 }
 
+//
+//  Not used TBC
+//
 Player.prototype.setText = function(badgeText) {
     console.log('setText');
     chrome.browserAction.setBadgeText({text: badgeText});
 };
 
+//
+//  Get URL from soundcloud and play it
+//
 Player.prototype.playTrack = function(track) {
     console.log('playTrack');
     console.log(track);
@@ -40,6 +45,9 @@ Player.prototype.playTrack = function(track) {
     });
 };
 
+//
+// Get current url and check it
+//
 Player.prototype.checkURL = function(tab) {
     console.log('checkURL');
     var urlMatch = new RegExp('^(http|https):\/\/([da-z.-]+)(.exposure)');
@@ -47,6 +55,9 @@ Player.prototype.checkURL = function(tab) {
 
 };
 
+//
+//  Backend integration
+//
 Player.prototype.checkDB = function(tab) {
     console.log('checkDB');
     var _that = this;
@@ -73,6 +84,10 @@ Player.prototype.prepareSound = function(tab){
 
 var player = new Player();
 
+
+//
+//  Handle communication with popup.js
+//
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
     if (request.track) {
         player.playTrack(request.track);
