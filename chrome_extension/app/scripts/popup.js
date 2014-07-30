@@ -11,27 +11,19 @@ SC.initialize({
     client_id: '8602754b7e631dee78add76ddd5169a2'
 });
 
-var userTest = function(cookie, cb) {
-    $.post('http://soundcloud.labs.lythell.com/user', {user: cookie.value}, function(data) {
-        cb(data);
-    });
-};
+
 
 chrome.cookies.get({url: 'http://soundcloud.com', name: 'soundtracker'}, function(cookie) {
-    var random = (cookie) ? cookie.value : Math.random().toString(36).substring(7);
     if (cookie) {
-        userTest(cookie, function(data) {
-            if (data) {
-                $('#info-wrapper').show();
-            } else {
-                $('#signup-button').attr('href', 'http://soundcloud.labs.lythell.com/signup?user=' + random);
-                $('#signup').show();
-            }
-        });
+        $('#info-wrapper').show();
     } else {
-        $('#signup-button').attr('href', 'http://soundcloud.labs.lythell.com/signup?user=' + random);
-        chrome.cookies.set({url: 'http://soundcloud.com', name: 'soundtracker', value: random});
+        var random = Math.random().toString(36).substring(7);
         $('#signup').show();
+        $('#signup-button').on('click', function(e) {
+            chrome.cookies.set({url: 'http://soundcloud.com', name: 'soundtracker', value: random, expirationDate: Date.now() + 1000000});
+            window.open('http://soundcloud.labs.lythell.com/signup?user=' + random);
+            e.preventDefault();
+        });
     }
 });
 
